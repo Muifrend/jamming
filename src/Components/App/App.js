@@ -1,6 +1,5 @@
 
 import './App.css';
-import { render } from '@testing-library/react';
 import React from 'react';
 import {SearchBar} from '../SearchBar/SearchBar.js'
 import {SearchResults} from '../SearchResults/SearchResults.js'
@@ -12,7 +11,8 @@ import {PlayList} from'../PlayList/PlayList.js'
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {searchResults : [
+    this.state = {
+      searchResults : [
       {
         name: 'Savior',
         aritst: 'Kendrick Lamar',
@@ -31,7 +31,26 @@ class App extends React.Component {
         album: 'Blonde',
         id: 236
       }
-    ]}
+    ],
+    playlistName: 'KOKO',
+    playlistTracks: [
+      { name: 'HUMBLE.',
+        artist: 'Kendrick Lamar',
+        album: 'DAMN.',
+        id: 1
+      },
+      { name: 'Karma police',
+        artist: 'Radiohead',
+        album: 'OK Computer',
+        id: 2
+      },
+      { name: 'N Side',
+        artist: 'Steve Lacey',
+        album: 'Apollo XXI',
+        id: 3
+      }
+    ]
+    }
   }
   render() {
     return <div>
@@ -40,7 +59,7 @@ class App extends React.Component {
               <SearchBar />
               <div className="App-playlist">
                 <SearchResults searchResults={this.state.searchResults}/>
-                <PlayList />
+                <PlayList playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks}/>
               </div>
             </div>
           </div>
