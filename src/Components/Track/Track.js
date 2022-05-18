@@ -1,8 +1,15 @@
 import React from 'react';
 
 export class Track extends React.Component {
+    constructor(props) {
+        super(props);
+        this.renderAction = this.renderAction.bind(this)
+    }
+    track() {
+      
+    }
     renderAction () {
-      <button className='Track-action'>{ isRemoval ? '-' : '+'}</button>
+      <button className='Track-action'>{ this.props.isRemoval ? '-' : '+'}</button>
     }
     render() {
         return <div className="Track">
