@@ -12,7 +12,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      searchResults : [
+      searchResults: [
       {
         name: 'Savior',
         aritst: 'Kendrick Lamar',
@@ -52,17 +52,26 @@ class App extends React.Component {
     ]
     }
     this.addTrack = this.addTrack.bind(this)
+    this.removeTrack = this.removeTrack.bind(this)
   }
   addTrack(track) {
-    const isFound = this.playlistTracks.some(element => {
+    const isFound = this.state.playlistTracks.some(element => {
       if (element.id === track.id) {
         return true;
       }
       return false;
     });
-    if(isFound) {
-      this.setState({playlistTracks: this.state.playlistTracks.push(track)})
+    if(!isFound) {
+      this.setState({playlistTracks: this.state.playlistTracks.concat(track)})
     }
+  }
+  removeTrack(track) {
+      this.setState({playlistTracks: this.state.playlistTracks.filter(trak=>{
+         return trak.id !== track.id
+      })})
+  }
+  updatePlaylistName() {
+    
   }
   render() {
     return <div>
@@ -71,7 +80,7 @@ class App extends React.Component {
               <SearchBar />
               <div className="App-playlist">
                 <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack}/>
-                <PlayList playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks}/>
+                <PlayList playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemoval={this.removeTrack}/>
               </div>
             </div>
           </div>
