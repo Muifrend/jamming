@@ -4,7 +4,7 @@ import React from 'react';
 import {SearchBar} from '../SearchBar/SearchBar.js'
 import {SearchResults} from '../SearchResults/SearchResults.js'
 import {PlayList} from'../PlayList/PlayList.js'
-
+import {Spotify} from '../../util/Spotify'
 
 
 
@@ -13,45 +13,9 @@ class App extends React.Component {
     super(props)
     this.state = {
       searchResults: [
-      {
-        name: 'Savior',
-        aritst: 'Kendrick Lamar',
-        album: 'Mr. Moral and The Big Steppers',
-        id: 234
-      },
-      {
-        name: 'Funny Thing',
-        aritst: 'Thundercat',
-        album: 'Drunk',
-        id: 235
-      },
-      {
-        name: 'Lost',
-        aritst: 'Frank Ocean',
-        album: 'Blonde',
-        id: 236
-      }
     ],
     playlistName: 'KOKO',
     playlistTracks: [
-      { name: 'HUMBLE.',
-        artist: 'Kendrick Lamar',
-        album: 'DAMN.',
-        id: 1,
-        uri: 'spotify:track:7KXjTSCq5nL1LoYtL7XAwS'
-      },
-      { name: 'Karma police',
-        artist: 'Radiohead',
-        album: 'OK Computer',
-        id: 2,
-        uri: 'spotify:track:63OQupATfueTdZMWTxW03A'
-      },
-      { name: 'N Side',
-        artist: 'Steve Lacey',
-        album: 'Apollo XXI',
-        id: 3,
-        uri: 'spotify:track:24G1PXBWoRgV0wDXZKwxzz'
-      }
     ]
     }
     this.addTrack = this.addTrack.bind(this)
@@ -60,13 +24,17 @@ class App extends React.Component {
     this.savePlaylist = this.savePlaylist.bind(this)
     this.search = this.search.bind(this)
   }
-  search(term) {
-    console.log(term)
+  async search(term) {
+    let tracks = await Spotify.search(term)
+    this.setState({searchResults: tracks})
   }
   savePlaylist() {
     const trackURIs = this.state.playlistTracks.map(trap=>{
       return trap.uri
     })
+    Spotify.savePlaylist(this.state.playlistName, trackURIs)
+    this.setState({playlistName: 'New Playlist'})
+    this.setState({playlistTracks: []})
   }
   addTrack(track) {
     const isFound = this.state.playlistTracks.some(element => {
